@@ -1,29 +1,10 @@
-//const y = new Date().getFullYear();
-//url: "https://apis.digital.gob.cl/fl/feriados/" + y,
+const y = new Date().getFullYear();
 
-function cargarTable() {
-
-  
-    $.ajax({
-        type: 'POST',
-        crossDomain: true,
-        url: 'https://farmanet.minsal.cl/index.php/ws/getLocales/',
-        dataType: 'jsonp',
-        success: function (data) {
-            
-          console.log(data);
-
-            for (var i = 0; i < data.length; i++) {
-
-                feriados.push({ fecha: data[i].fecha });
-            }
-
-        }
-    });
+(function cargarTable() {
 
   $.ajax({
     type: "POST",
-    url: 'https://apis.digital.gob.cl/fl/feriados/',
+    url: "https://apis.digital.gob.cl/fl/feriados/" + y,
     dataType: 'jsonp',
     contentType: false,
     async: false,
@@ -31,7 +12,7 @@ function cargarTable() {
 
       let resuelto = JSON.parse(JSON.stringify(respuesta));
 
-       let htmlTodo = `
+      let htmlTodo = `
           <table id="dataTables-feriados" class="table table-striped table-bordered table-hover" data-page-length="10">
             <thead>
               <tr>
@@ -44,7 +25,6 @@ function cargarTable() {
 
       for (let i = 0; i < resuelto.length; i++) {
 
-        
         htmlTodo += `
             <tr>
               <td class="text-nowrap bd-highlight" style="width: 8rem;">${resuelto[i].fecha.split('-').reverse().join('-')}</td>
@@ -61,7 +41,7 @@ function cargarTable() {
       RearmTableEM("dataTables-feriados");
     },
   });
-}
+})();
 
 function RearmTableEM(tabla) {
 
@@ -78,10 +58,3 @@ function RearmTableEM(tabla) {
     order: [1, "Desc"],
   });
 };
-
-
-
-
-cargarTable();
-
-
